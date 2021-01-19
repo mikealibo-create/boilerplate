@@ -13,28 +13,26 @@
       .top-bar-left
         %ul.dropdown.menu{"data-dropdown-menu" => ""}
           %li.menu-text Boilerplate
-          %li
-            %a{:href => "#"} One
-            %ul.menu.vertical
-              %li
-                %a{:href => "#"} One
-              %li
-                %a{:href => "#"} Two
-              %li
-                %a{:href => "#"} Three
-          %li
-            %a{:href => "#"} Two
-          %li
-            %a{:href => "#"} Three
+      
       .top-bar-right
-        %ul.menu
-          %li
-            %input{:placeholder => "Search", :type => "search"}/
-          %li
-            %button.button{:type => "button"} Search
+        -if user_signed_in?
+          %ul.dropdown.menu{"data-dropdown-menu" => ""}
+            %li
+              %a{:href => "#"}
+                = current_user.email
+              %ul.menu.vertical
+                %li
+                  = link_to('Logout', destroy_user_session_path, method: :delete)
+        -else
+          %ul.dropdown.menu{"data-dropdown-menu" => ""}
+            %li
+              = link_to('Login', new_user_session_path)
+            %li
+              = link_to('Sign up', new_user_registration_path)
 
     %p.notice
       = notice
     %p.alert
       = alert
-    = yield
+    .grid-container
+      = yield
